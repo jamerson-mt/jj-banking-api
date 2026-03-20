@@ -4,4 +4,8 @@
     <Project Path="src/JJBanking.Domain/JJBanking.Domain.csproj" />
     <Project Path="src/JJBanking.Infra/JJBanking.Infra.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/JJBanking.IntegrationTests/JJBanking.IntegrationTests.csproj" />
+    <Project Path="tests/JJBanking.UnitTests/JJBanking.UnitTests.csproj" />
+  </Folder>
 </Solution>
