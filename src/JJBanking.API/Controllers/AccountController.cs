@@ -17,7 +17,7 @@ public class AccountsController : ControllerBase
     }
 
     // 🚀 POST: api/accounts
-    // Cria uma nova conta
+    // CRIA UMA NOVA CONTA
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateAccountRequest request)
     {
@@ -25,7 +25,7 @@ public class AccountsController : ControllerBase
         if (request.InitialDeposit < 0)
             return BadRequest("O depósito inicial não pode ser negativo.");
 
-        var account = new Account(request.Owner, request.InitialDeposit);
+        var account = new Account(request.Owner, request.Cpf, request.InitialDeposit);
 
         _context.Accounts.Add(account);
         await _context.SaveChangesAsync();
@@ -33,17 +33,8 @@ public class AccountsController : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = account.Id }, account);
     }
 
-    // 🔍 GET: api/accounts
-    // Lista todas as contas (bom para testar)
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        var accounts = await _context.Accounts.ToListAsync();
-        return Ok(accounts);
-    }
-
     // 🆔 GET: api/accounts/{id}
-    // Busca uma conta específica
+    // BUSCA UMA CONTA ESPECIFICA
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -57,4 +48,4 @@ public class AccountsController : ControllerBase
 }
 
 // DTO (Data Transfer Object) para não expor a entidade pura no request
-public record CreateAccountRequest(string Owner, decimal InitialDeposit);
+public record CreateAccountRequest(string Owner, string Cpf, decimal InitialDeposit);
