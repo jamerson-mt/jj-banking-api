@@ -66,8 +66,6 @@ public class TransactionTests
         // Assert
         act.Should()
             .Throw<ArgumentException>() // Espera que uma ArgumentException seja lançada
-            .WithMessage(
-                "A descrição da transação não pode exceder 255 caracteres. (Parameter 'description')"
-            );
+            .WithMessage("A descrição é obrigatória e deve ter no máximo 250 caracteres.");
     }
 }

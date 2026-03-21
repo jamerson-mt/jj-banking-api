@@ -6,12 +6,15 @@ namespace JJBanking.UnitTests.Entities;
 
 public class AccountTests
 {
+    private string GenerateRandomCpf() =>
+        Random.Shared.Next(100000000, 999999999).ToString() + "00"; //
+
     [Fact]
     public void Constructor_WhenValidData_ShouldCreateAccountWithInitialBalance()
     {
         // arrange (organizar)
         var owner = "Jamerson";
-        var cpf = "09478200000";
+        var cpf = GenerateRandomCpf();
         var initialDeposit = 700.00m;
 
         // Act (agir)
@@ -28,7 +31,7 @@ public class AccountTests
     public void Deposit_WhenValueIsPositive_ShouldIncreaseBalance()
     {
         // Arrange
-        var account = new Account("Jamerson", "12345678901", 100.00m);
+        var account = new Account("Jamerson", GenerateRandomCpf(), 100.00m);
 
         // Act
         account.Deposit(50.00m);
@@ -41,7 +44,7 @@ public class AccountTests
     public void Constructor_WhenInitialDepositIsNegative_ShouldThrowException()
     {
         // Arrange & Act
-        Action act = () => new Account("Jamerson", "12345678901", -10.00m);
+        Action act = () => new Account("Jamerson", GenerateRandomCpf(), -10.00m);
 
         // Assert
         act.Should()
@@ -53,7 +56,7 @@ public class AccountTests
     public void Withdraw_WhenBalanceIsSufficient_ShouldDecreaseBalance()
     {
         // Arrange (criamos a conta com saldo)
-        var account = new Account("Jamerson", "12345678901", 400.00m);
+        var account = new Account("Jamerson", GenerateRandomCpf(), 400.00m);
 
         // Act (sacamos)
         account.Withdraw(100.00m);
@@ -66,7 +69,7 @@ public class AccountTests
     public void Withdraw_WhenBalanceIsInsufficient_ShouldThrowException()
     {
         // Arrange (criamos a conta com saldo)
-        var account = new Account("Jamerson", "12345678901", 400.00m);
+        var account = new Account("Jamerson", GenerateRandomCpf(), 400.00m);
 
         // Act (sacamos)
         Action act = () => account.Withdraw(500.00m);
@@ -81,7 +84,7 @@ public class AccountTests
     public void Withdraw_WhenValueIsInvalid_ShouldThrowException(decimal invalidAmount)
     {
         // Arrange
-        var account = new Account("Jamerson", "123456789", 300);
+        var account = new Account("Jamerson", GenerateRandomCpf(), 300);
 
         //Act
         Action act = () => account.Withdraw(invalidAmount);

@@ -39,9 +39,9 @@ public class AccountsController : ControllerBase
         _context.Accounts.Add(account);
         await _context.SaveChangesAsync();
 
-        var response = new AccountResponse(account.Id, account.Owner,account.Cpf, account.Balance);
+        var response = new AccountResponse(account.Id, account.Owner, account.Cpf, account.Balance);
 
-        return Ok(response);
+        return CreatedAtAction(nameof(GetById), new { id = account.Id }, response);
     }
 
     // 🆔 GET: api/accounts/{id}

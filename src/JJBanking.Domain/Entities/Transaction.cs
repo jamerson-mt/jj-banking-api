@@ -33,6 +33,18 @@ public class Transaction
 
     public Transaction(Guid accountId, decimal amount, TransactionType type, string description)
     {
+        // Validação de valor negativo (Resolve 2 falhas)
+        if (amount <= 0)
+            throw new ArgumentException(
+                "O valor da transação não pode ser negativo. (Parameter 'amount')"
+            );
+
+        // Validação de descrição (Resolve 1 falha)
+        if (string.IsNullOrWhiteSpace(description) || description.Length > 250)
+            throw new ArgumentException(
+                "A descrição é obrigatória e deve ter no máximo 250 caracteres."
+            );
+
         Id = Guid.NewGuid();
         AccountId = accountId;
         Amount = amount;
