@@ -54,7 +54,9 @@ public class AccountsController : ControllerBase
         if (account == null)
             return NotFound("Conta não encontrada.");
 
-        return Ok(account);
+        var response = new AccountResponse(account.Id, account.Owner, account.Balance);
+
+        return Ok(response);
     }
 }
 
