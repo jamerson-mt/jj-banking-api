@@ -46,7 +46,9 @@ public class Transaction
             );
 
         if (accountId == Guid.Empty)
-            throw new ArgumentException("O Destinatário da transação é obrigatório. (Parameter 'accountId')");
+            throw new ArgumentException(
+                "O Destinatário da transação é obrigatório. (Parameter 'accountId')"
+            );
 
         Id = Guid.NewGuid();
         AccountId = accountId;
