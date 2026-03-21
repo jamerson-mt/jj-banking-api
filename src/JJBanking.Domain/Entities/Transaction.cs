@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using JJBanking.Domain.Enums; // <--- ESTA LINHA É A CHAVE PARA O ERRO SUMIR
 
 namespace JJBanking.Domain.Entities;

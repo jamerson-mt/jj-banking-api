@@ -21,6 +21,17 @@ public class BankDbContext : DbContext
         //GARANTE PRECISAO DO SALDO NO BANCO DE DADOS (8 digitos, 2 decimais)
         modelBuilder.Entity<Account>().Property(a => a.Balance).HasColumnType("decimal(8,2)");
 
+        // --- ADICIONE ISSO PARA A TRANSACTION ---
+        modelBuilder.Entity<Transaction>().HasKey(t => t.Id);
+        modelBuilder.Entity<Transaction>().Property(t => t.Amount).HasColumnType("decimal(18,2)");
+
+        // Relacionamento 1:N (Uma conta tem muitas transações)
+        modelBuilder
+            .Entity<Transaction>()
+            .HasOne(t => t.Account)
+            .WithMany(a => a.Transactions)
+            .HasForeignKey(t => t.AccountId);
+
         base.OnModelCreating(modelBuilder);
     }
 }

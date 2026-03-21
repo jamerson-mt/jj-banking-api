@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations; // Necessário para usar as anotações de validação, como [Required] e [StringLength]
-using System.ComponentModel.DataAnnotations.Schema; // Necessário para usar as anotações de mapeamento, como [Table] e [Column]
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization; // Necessário para usar as anotações de mapeamento, como [Table] e [Column]
 
 namespace JJBanking.Domain.Entities;
 
@@ -23,6 +24,9 @@ public class Account
 
     [Required]
     public DateTime CreatedAt { get; private set; } = DateTime.UtcNow; // Data de criação da conta
+
+   
+    public ICollection<Transaction> Transactions { get; private set; } = new List<Transaction>();
 
     // Construtor necessário para o Entity Framework
     private Account() { } // O EF precisa de um construtor sem parâmetros para criar instâncias da entidade

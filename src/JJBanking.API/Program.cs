@@ -1,4 +1,6 @@
+using JJBanking.Domain.Interfaces;
 using JJBanking.Infra.Context;
+using JJBanking.Infra.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 // Configura o PostgreSQL usando a ConnectionString do appsettings.json
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BankDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 // Configura o Swagger/OpenAPI para documentação
 builder.Services.AddEndpointsApiExplorer();
