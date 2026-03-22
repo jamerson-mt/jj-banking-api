@@ -87,7 +87,8 @@ public class TransactionTests
             .Throw<ArgumentException>() // Espera que uma ArgumentException seja lançada
             .WithMessage("O valor da transação não pode ser negativo. (Parameter 'amount')");
     }
-    // tem que ter um recebbedor    
+
+    // tem que ter um recebbedor
     [Fact]
     public void Constructor_WhenAccountIdIsEmpty_ShouldThrowException()
     {

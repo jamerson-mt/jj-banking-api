@@ -4,9 +4,9 @@ services:
     container_name: jj-banking-db
     restart: always
     environment:
-      POSTGRES_DB: jjbanking_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -18,7 +18,8 @@ services:
     ports:
       - "5000:8080"
     environment:
-      - ConnectionStrings__DefaultConnection=Host=jj-db;Database=jjbanking_db;Username=admin;Password=password123
+      # O .NET mapeia automaticamente o "__" para ":" do appsettings
+      - ConnectionStrings__DefaultConnection=Host=jj-db;Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}
     depends_on:
       - jj-db
 
