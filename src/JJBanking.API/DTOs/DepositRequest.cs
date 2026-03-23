@@ -1,3 +1,0 @@
-namespace JJBanking.API.DTOs;
-
-public record DepositRequest(Guid AccountId, decimal Amount, string Description);

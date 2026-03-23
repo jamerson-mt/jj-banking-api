@@ -1,8 +1,6 @@
-using JJBanking.API.DTOs.Auth;
+using JJBanking.Domain.DTOs;
+using JJBanking.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using JJBanking.Infra.Services.Auth;
-
-
 
 namespace JJBanking.API.Controllers;
 
@@ -27,6 +25,7 @@ public class AuthController : ControllerBase
 
         try
         {
+            // O Service é quem tem a lógica de negócio, o Controller só orquestra
             var result = await _authService.RegisterAsync(request);
             return Ok(result); // 200 OK
         }

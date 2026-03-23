@@ -1,4 +1,4 @@
-using JJBanking.API.DTOs;
+using JJBanking.Domain.DTOs;
 using JJBanking.Domain.Entities;
 using JJBanking.Infra.Context;
 using Microsoft.AspNetCore.Mvc;
@@ -17,33 +17,6 @@ public class AccountsController : ControllerBase
         _context = context;
     }
 
-    // 🚀 POST: api/accounts
-    // CRIA UMA NOVA CONTA
-    [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreatedAccountRequest request)
-    {
-        // Validação básica
-        if (request.InitialDeposit < 0)
-            return BadRequest("O depósito inicial não pode ser negativo.");
-
-        var account = new Account(request.Owner, request.Cpf, request.InitialDeposit);
-
-        //verificar se ja existe uma conta existente com o mesmo CPF
-        var existingAccount = await _context.Accounts.FirstOrDefaultAsync(a =>
-            a.Cpf == request.Cpf
-        );
-        if (existingAccount != null)
-            return BadRequest("Já existe uma conta vinculada a este CPF.");
-
-        // SE NAO EXISTIR, CRIA A CONTA
-        _context.Accounts.Add(account);
-        await _context.SaveChangesAsync();
-
-        var response = new AccountResponse(account.Id, account.Owner, account.Cpf, account.Balance);
-
-        return CreatedAtAction(nameof(GetById), new { id = account.Id }, response);
-    }
-
     // 🆔 GET: api/accounts/{id}
     // BUSCA UMA CONTA ESPECIFICA
     [HttpGet("{id}")]
@@ -54,7 +27,12 @@ public class AccountsController : ControllerBase
         if (account == null)
             return NotFound("Conta não encontrada.");
 
-        var response = new AccountResponse(account.Id, account.Owner, account.Cpf, account.Balance);
+        var response = new AccountResponse(
+            account.Id,
+            account.User.FullName,
+            account.User.Cpf,
+            account.Balance
+        );
 
         return Ok(response);
     }
