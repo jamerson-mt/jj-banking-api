@@ -34,4 +34,24 @@ public class AuthController : ControllerBase
             return BadRequest(new { error = ex.Message });
         }
     }
+
+    // POST: /api/auth/login
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        try
+        {
+            // Chama a autenticação que verifica e-mail e senha
+            var result = await _authService.AuthenticateAsync(request.Email, request.Password);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            // 401 Unauthorized é mais apropriado para falhas de login
+            return Unauthorized(new { error = ex.Message });
+        }
+    }
 }

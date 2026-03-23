@@ -35,7 +35,6 @@ public class AccountService : IAccountService
         return transaction;
     }
 
-
     // REALIZA UMA TRANSAÇÃO DE SAQUE
     public async Task<Transaction> WithdrawAsync(Guid accountId, decimal amount, string description)
     {
@@ -54,7 +53,6 @@ public class AccountService : IAccountService
         return transaction;
     }
 
-
     //
     public async Task<IEnumerable<Transaction>> GetStatementAsync(Guid accountId)
     {
@@ -62,27 +60,5 @@ public class AccountService : IAccountService
             .Transactions.Where(t => t.AccountId == accountId)
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync();
-    }
-
-    public async Task<Account> CreateAccountAsync(string owner, string cpf, decimal initialDeposit)
-    {
-        var account = new Account(owner, cpf, initialDeposit);
-        _context.Accounts.Add(account);
-
-        // Se houver depósito inicial, gera a primeira transação
-        if (initialDeposit > 0)
-        {
-            account.Deposit(initialDeposit);
-            var firstTransaction = new Transaction(
-                account.Id,
-                initialDeposit,
-                TransactionType.Credit,
-                "Depósito Inicial"
-            );
-            _context.Transactions.Add(firstTransaction);
-        }
-
-        await _context.SaveChangesAsync();
-        return account;
     }
 }

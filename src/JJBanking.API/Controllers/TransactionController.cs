@@ -1,4 +1,4 @@
-using JJBanking.API.DTOs;
+using JJBanking.Domain.DTOs;
 using JJBanking.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

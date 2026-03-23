@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
 using FluentAssertions;
-using JJBanking.API.DTOs;
+using JJBanking.Domain.DTOs;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 
