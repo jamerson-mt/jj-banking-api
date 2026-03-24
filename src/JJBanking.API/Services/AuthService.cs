@@ -18,20 +18,14 @@ public class AuthService : IAuthService
         _context = context;
     }
 
-    // Corrigido o tipo de retorno para AuthResponse para bater com a Interface
+    // CRIA UMA CONTA E UM USUARIO
     public async Task<AuthResponse> RegisterAsync(AccountRegister request)
     {
         using var transaction = await _context.Database.BeginTransactionAsync();
 
         try
         {
-            var user = new User
-            {
-                UserName = request.Email,
-                Email = request.Email,
-                FullName = request.FullName,
-                Cpf = request.Cpf,
-            };
+            var user = new User(request.Email, request.FullName, request.Cpf);
 
             // validation Password
             if (!PasswordValidator.IsStrong(request.Password))
