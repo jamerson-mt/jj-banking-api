@@ -73,7 +73,14 @@ public class AuthService : IAuthService
             await transaction.CommitAsync(); // Se tudo deu certo, confirma a transação no banco
 
             // Implementar geração de token JWT aqui, por enquanto retorna um token provisório
-            return new AuthResponse("token_provisorio", accountNumber, user.FullName);
+            return new AuthResponse(
+                Token: "jaja_tera_um_token_valido",
+                FullName: user.FullName,
+                AccountId: account.Id,
+                AccountNumber: account.AccountNumber,
+                Branch: account.Branch,
+                Balance: account.Balance
+            );
         }
         catch
         {
@@ -96,7 +103,14 @@ public class AuthService : IAuthService
 
         var accountNumber = account?.AccountNumber ?? "0000-0";
 
-        // Aqui geraremos o JWT em breve
-        return new AuthResponse("token_real_vindo_daqui_a_pouco", accountNumber, user.FullName);
+        // Implementar geração de token JWT aqui, por enquanto retorna um token provisório
+        return new AuthResponse(
+            Token: "jaja_tera_um_token_valido",
+            FullName: user.FullName,
+            AccountId: account!.Id,
+            AccountNumber: account.AccountNumber,
+            Branch: account.Branch,
+            Balance: account.Balance
+        );
     }
 }
