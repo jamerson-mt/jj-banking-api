@@ -67,6 +67,7 @@ secrets.json
 jj-data/
 pgdata/
 docker-compose.override.yml
+data/
 
 ## ====================================================================
 ## IDE (Visual Studio / VS Code)
