@@ -24,7 +24,6 @@ builder
     .AddEntityFrameworkStores<BankDbContext>()
     .AddDefaultTokenProviders();
 
-
 // --- SERVIÇOS ---
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -69,7 +68,6 @@ app.UseSwaggerUI();
 
 // 1. Roteamento deve vir primeiro
 app.UseRouting();
-
 
 // 3. Segurança
 app.UseAuthentication();
