@@ -1,3 +1,4 @@
+using JJBanking.Domain.DTOs;
 using JJBanking.Domain.Entities;
 
 namespace JJBanking.Domain.Interfaces;
@@ -8,4 +9,9 @@ public interface IAccountService
     Task<Transaction> DepositAsync(Guid accountId, decimal amount, string description);
     Task<Transaction> WithdrawAsync(Guid accountId, decimal amount, string description);
     Task<IEnumerable<Transaction>> GetStatementAsync(Guid accountId);
+    Task<TransferResponse> TransferAsync(
+        Guid originAccountId,
+        Guid destinationAccountId,
+        decimal amount
+    );
 }

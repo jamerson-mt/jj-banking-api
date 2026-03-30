@@ -1,3 +1,4 @@
+using JJBanking.Domain.DTOs;
 using JJBanking.Domain.Entities;
 using JJBanking.Domain.Enums;
 using JJBanking.Domain.Interfaces;
@@ -60,5 +61,70 @@ public class AccountService : IAccountService
             .Transactions.Where(t => t.AccountId == accountId)
             .OrderByDescending(t => t.CreatedAt)
             .ToListAsync();
+    }
+
+    //  REALIZA UMA TRANSAÇÃO DE DEPÓSITO
+    public async Task<TransferResponse> TransferAsync(
+        Guid originAccountId,
+        Guid destinationAccountId,
+        decimal amount
+    )
+    {
+        // Cria uma lista com os dois IDs
+        var accountIds = new List<Guid> { originAccountId, destinationAccountId };
+
+        // Busca todas as contas que estão nessa lista
+        var accounts = await _context.Accounts.Where(a => accountIds.Contains(a.Id)).ToListAsync();
+
+        // Validação
+        if (accounts.Count < 2)
+        {
+            // Aqui você identifica qual delas falta ou retorna erro genérico
+            throw new Exception("Uma ou ambas as contas não existem.");
+        }
+
+        // Para facilitar o uso depois, você separa as variáveis
+        var originAccount = accounts.First(a => a.Id == originAccountId);
+        var destinationAccount = accounts.First(a => a.Id == destinationAccountId);
+
+        // 1. Atualiza os saldos nas entidades (Lógica de domínio)
+        originAccount.Withdraw(amount);
+        destinationAccount.Deposit(amount);
+
+        // 2. Cria os registros da transação (Entrada Dupla)
+        var originTransaction = new Transaction(
+            originAccountId,
+            amount,
+            TransactionType.Debit,
+            $"Transferência enviada para conta {destinationAccount.AccountNumber}" // Melhorar a descrição ajuda no extrato
+        );
+
+        var destinationTransaction = new Transaction(
+            destinationAccountId,
+            amount,
+            TransactionType.Credit,
+            $"Transferência recebida da conta {originAccount.AccountNumber}"
+        );
+
+        // 3. Salva tudo no banco
+        // Usamos AddRange para adicionar a lista de transações de uma vez
+        _context.Transactions.AddRange(originTransaction, destinationTransaction);
+
+        // O EF Core enviará os 2 UPDATES das contas e os 2 INSERTS das transações
+        // em uma única transação atômica do SQL.
+        await _context.SaveChangesAsync();
+
+        // ... (após o SaveChangesAsync)
+
+        // Mapeamento manual para o DTO
+        var response = new TransferResponse
+        {
+            TransactionId = originTransaction.Id, // Usamos o ID da transação de débito
+            Amount = amount,
+            Date = DateTime.UtcNow,
+        };
+
+        return response;
+        // Você pode retornar a transação de origem ou um objeto customizado
     }
 }
