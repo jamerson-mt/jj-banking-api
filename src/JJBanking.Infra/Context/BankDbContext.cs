@@ -30,7 +30,7 @@ public class BankDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         {
             entity.HasKey(a => a.Id);
             entity.HasIndex(a => a.AccountNumber).IsUnique();
-            entity.Property(a => a.Balance).HasColumnType("decimal(8,2)");
+            entity.Property(a => a.Balance).HasColumnType("decimal(18,2)");
 
             entity
                 .HasOne(a => a.User)
@@ -43,7 +43,7 @@ public class BankDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         modelBuilder.Entity<Transaction>(entity =>
         {
             entity.HasKey(t => t.Id);
-            entity.Property(t => t.Amount).HasColumnType("decimal(8,2)");
+            entity.Property(t => t.Amount).HasColumnType("decimal(18,2)");
 
             entity
                 .HasOne(t => t.Account)
@@ -55,7 +55,7 @@ public class BankDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
         modelBuilder.Entity<Transfer>(entity =>
         {
             entity.HasKey(t => t.Id);
-            entity.Property(t => t.Amount).HasColumnType("decimal(8,2)").IsRequired();
+            entity.Property(t => t.Amount).HasColumnType("decimal(18,2)").IsRequired();
             entity.Property(t => t.Description).HasMaxLength(250);
             entity.Property(t => t.CreatedAt).IsRequired();
 

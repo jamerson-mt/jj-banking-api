@@ -16,7 +16,7 @@ public class Account
     public string Branch { get; private set; } = "0001"; // Agência fixa para começar
 
     [Required]
-    [Column(TypeName = "decimal(8,2)")] // Aumentei a precisão para 18,2 (padrão bancário)
+    [Column(TypeName = "decimal(18,2)")] // Aumentei a precisão para 18,2 (padrão bancário)
     public decimal Balance { get; private set; }
 
     [Required]

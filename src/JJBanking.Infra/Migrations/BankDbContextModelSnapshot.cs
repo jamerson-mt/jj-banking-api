@@ -28,7 +28,7 @@ namespace JJBanking.Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Balance")
-                        .HasColumnType("decimal(8,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Branch")
                         .IsRequired()
@@ -61,7 +61,7 @@ namespace JJBanking.Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(8,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
@@ -88,7 +88,7 @@ namespace JJBanking.Infra.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(8,2)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
